@@ -68,11 +68,12 @@ int main()
   // steer  -0.3002331 5e-5  0.002
   
   //these variables are used as flags to aid with the twiddle algorithm
+  bool twiddle = false;
   bool twiddle_reset = true;
   bool error_reset = true;
   bool twiddle_steer = true;
   int measure_start = 50;
-  int measure_stop = 1500;
+  int measure_stop = 2000;
   float accumulated_error = 0;
   float throttle_error = 1e6;
   float steer_error = 1e6;
@@ -80,7 +81,7 @@ int main()
   int i = 0;
   int lap = 0;
 
-  h.onMessage([&pid_steer, &pid_throttle, &lap,
+  h.onMessage([&pid_steer, &pid_throttle, &lap, &twiddle,
                &twiddle_reset, &error_reset, &twiddle_steer,
                &measure_start, &measure_stop, &accumulated_error,
                &throttle_error, &steer_error, &throttle_offset, &i](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) 
@@ -137,7 +138,7 @@ int main()
 
           //once the simulator has run for a predefined number of steps new PID
           // values are calculated through twiddle
-          if (i > measure_stop && twiddle_reset == true)
+          if (i > measure_stop && twiddle_reset == true && twiddle == true)
           {
             twiddle_reset = false;
             lap += 1;

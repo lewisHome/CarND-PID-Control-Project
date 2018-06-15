@@ -1,7 +1,34 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
----
+## Method
+
+A PID controller is a commonly used method of controlling dynamic systems throughout industry. The PID stands for Proportional, Derivative and Integral control and was first mathematically formalised by [Nicolas Minorsky](http://ieeecss.org/CSM/library/1984/nov1984/w10-15.pdf). Nicolas was workin as an Engineer for the American Navy and tasked with observing Helmsmen steering ships such that a method of automatically steering ships could be developed.
+
+### Proportional Control
+Proportional control has been used since long before Nicolas turned up on the scene. Infact it had even been used to automatically steer small ships.
+
+Propotional control is the idea that the larger the error is in a system the larger the corrective action is that is applied to the system. This is a very powerful and intuative technique. However a purely proportional control system is prone to overshoot, that is the system will overcompensate for the measured error and induce an opposite error. This is shown by the green signal oscillating around the red in the image below.
+
+![ ](Images/P_Controller.png  "P Controller")
+
+### Derivative Control
+
+The problem with pure proportional control is that it only works on the current system state, that is it can't accomodate the fact that as a controller gets closer to the set point it should reduce the amount by which it modulates the process. This was noted by Nicolas Minorsky as the observation that a helmsman starts to decrease the amount by which he corrects the steering error the closer they get to the correct heading. This is mathematically formalised by including a derivative correction factor.
+
+![ ](Images/PD_Controller.png  "PD Controller")
+
+### Integral Control
+
+![ ](Images/PID_Controller.png  "PID Controller")
+
+##Tuning a PID controller
+
+###Zeigler Nicholas Method
+
+###Twiddle
+
+![](Images/PID_vid.gif "PID Video")
 
 ## Dependencies
 
@@ -59,40 +86,4 @@ More information is only accessible by people who are already enrolled in Term 2
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
 for instructions and the project rubric.
 
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
+## 

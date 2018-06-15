@@ -14,19 +14,33 @@ Propotional control is the idea that the larger the error is in a system the lar
 
 ### Derivative Control
 
-The problem with pure proportional control is that it only works on the current system state, that is it can't accomodate the fact that as a controller gets closer to the set point it should reduce the amount by which it modulates the process. This was noted by Nicolas Minorsky as the observation that a helmsman starts to decrease the amount by which he corrects the steering error the closer they get to the correct heading. This is mathematically formalised by including a derivative correction factor.
+The problem with pure proportional control is that it only works on the current system state. That is as the controller approaches the set point it can not decrease the amount of corrective action it is applying. Humans do this intuitivly and was noted by Nicolas Minorsky as the observation that a helmsman starts to decrease the amount by which he corrects the steering error the closer they get to the prescribed heading. This is mathematically formalised by including a derivative correction factor. As the image below shows a well tuned PD controller can settle nicely at a set point.
 
 ![ ](Images/PD_Controller.png  "PD Controller")
 
 ### Integral Control
 
+The final term in the controller is the integral term and this is used to compensate for steady state error. In Nicolas's work this is to cover effects such as wind blowing the ship off course. 
+
 ![ ](Images/PID_Controller.png  "PID Controller")
 
-##Tuning a PID controller
+## Tuning a PID controller
 
-###Zeigler Nicholas Method
+The mathematical implementation of a PID controller is not difficult. The difficulty in using a PID controller comes from choosing the correct gain factors for each element and this is notoriously difficult.
 
-###Twiddle
+### Zeigler Nichols Method
+
+A commonly used method of tuning a PID controller was developed by [J Zeigler and N Nichols](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method). The basic idea is to set the I and D gain parameters to zero and then modify your P parameter until you have a steady osscilation. This gives you your ultimate gain and a measure your period of osscilation. Using these two factors you can calculate optimum P,I and D gain parameters.
+
+### Twiddle
+
+The method described in the Udacity course notes is coined twiddle and is a gradient descent method. This is the method implemented in the code contained within this repo.  The code is included in [PID.cpp](src/PID.cpp) under the Twiddle function. 
+
+The twiddle algorithm squentially tweeks each gain parameter and measures the effect on the system by observing the effect on the accumulated error. The algorithm keeps adjusting the parameters until the adjustment decreases the performance of the system. At this point the best value is kept and the next parameter is modified. This is repeated for each parameter and then the process is repeated with increasingly smaller probing values. until the sum of the probing values are less than a specified tolerance.
+
+This method has a tendancy to get stuck in local minima and also requires reasonable values to start with. An interesting method I found on line used [Evolutionary Programing](https://arxiv.org/pdf/1709.09227.pdf) for optimizing the parameters and if I have more time in the future I would like to revist this problem and try some different tuning techniques.
+
+The code in this repo tries to optimise parameters to control the steering and the throttle. To achieve this I define an accumalted error function which decreases the closer the car is to the center of the road and also the speed that it travels. That is a good accumulated error value is obtained for a vehicle that is in the center of the road and travelling fast. I put in heavy penalty functions for a stopped car and for a car that is not on the track. These are basic concepts for building a learning agent and this presents another opportunity for further interesting research.
 
 ![](Images/PID_vid.gif "PID Video")
 
